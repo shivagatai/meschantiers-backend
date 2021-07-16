@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sites",
+  "info": {
+    "name": "site",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nom_corrige_dbr": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "numero": {
+      "type": "integer",
+      "unique": false
+    },
+    "etiquet": {
+      "type": "string"
+    },
+    "etiquet_s": {
+      "type": "string"
+    },
+    "code_uai_rattachement": {
+      "type": "string",
+      "unique": false,
+      "regex": "\\d{7}[A-Z]"
+    },
+    "commune": {
+      "via": "sites",
+      "model": "commune"
+    },
+    "chantiers": {
+      "via": "site",
+      "collection": "chantier"
+    },
+    "eple": {
+      "type": "enumeration",
+      "enum": [
+        "EPLE",
+        "HORS_EPLE"
+      ]
+    }
+  }
+}

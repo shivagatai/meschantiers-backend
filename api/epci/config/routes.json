@@ -1,0 +1,60 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/epcis",
+      "handler": "epci.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/epcis/count",
+      "handler": "epci.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/epcis/:id",
+      "handler": "epci.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/epcis",
+      "handler": "epci.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/epcis/loadepci",
+      "handler": "epci.loadEPCI",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/epcis/:id",
+      "handler": "epci.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/epcis/:id",
+      "handler": "epci.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

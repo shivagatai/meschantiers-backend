@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "departements",
+  "info": {
+    "name": "departement",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nom": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "dpt": {
+      "type": "integer"
+    },
+    "communes": {
+      "via": "departement",
+      "collection": "commune"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "communes",
+  "info": {
+    "name": "commune",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "commune_nv": {
+      "type": "string",
+      "required": true
+    },
+    "insee_nv": {
+      "type": "integer",
+      "unique": true,
+      "required": true
+    },
+    "epci": {
+      "via": "communes",
+      "model": "epci"
+    },
+    "departement": {
+      "via": "communes",
+      "model": "departement"
+    },
+    "sites": {
+      "via": "commune",
+      "collection": "site"
+    }
+  }
+}

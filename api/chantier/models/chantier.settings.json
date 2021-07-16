@@ -1,0 +1,76 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chantiers",
+  "info": {
+    "name": "chantier",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "numero": {
+      "type": "string"
+    },
+    "site": {
+      "via": "chantiers",
+      "model": "site"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "ap_est": {
+      "type": "decimal"
+    },
+    "date_deliberation": {
+      "type": "integer"
+    },
+    "remise_prog_date_prev": {
+      "type": "date"
+    },
+    "notif_moe_date_prev": {
+      "type": "date"
+    },
+    "notif_ent_date_prev": {
+      "type": "date"
+    },
+    "fin_tvx_date_prev": {
+      "type": "date"
+    },
+    "comite_proj": {
+      "type": "boolean"
+    },
+    "etape": {
+      "model": "etape",
+      "via": "chantiers"
+    },
+    "priorite": {
+      "type": "integer",
+      "min": 1,
+      "max": 4
+    },
+    "revues": {
+      "via": "chantier",
+      "collection": "revue"
+    },
+    "plan_relance": {
+      "type": "boolean"
+    },
+    "cpe": {
+      "type": "boolean"
+    },
+    "dfap": {
+      "type": "boolean"
+    },
+    "etat": {
+      "type": "enumeration",
+      "enum": [
+        "SMOCT",
+        "Energie"
+      ]
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "revues",
+  "info": {
+    "name": "revue",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "info_cles": {
+      "type": "richtext"
+    },
+    "chantier": {
+      "via": "revues",
+      "model": "chantier"
+    },
+    "auteur": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

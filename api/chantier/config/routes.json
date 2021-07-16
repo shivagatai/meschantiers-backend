@@ -1,0 +1,60 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/chantiers",
+      "handler": "chantier.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/chantiers/count",
+      "handler": "chantier.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/chantiers/:id",
+      "handler": "chantier.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/chantiers",
+      "handler": "chantier.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/chantiers/loadchantiers",
+      "handler": "chantier.loadchantiers",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/chantiers/:id",
+      "handler": "chantier.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/chantiers/:id",
+      "handler": "chantier.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

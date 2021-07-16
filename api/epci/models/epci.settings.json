@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "epcis",
+  "info": {
+    "name": "epci",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "etiq_epci": {
+      "type": "string"
+    },
+    "epci": {
+      "type": "integer"
+    },
+    "communes": {
+      "via": "epci",
+      "collection": "commune"
+    }
+  }
+}

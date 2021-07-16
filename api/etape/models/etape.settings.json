@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "etapes",
+  "info": {
+    "name": "etape",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ordre": {
+      "type": "integer",
+      "unique": true,
+      "required": true
+    },
+    "etape": {
+      "type": "string",
+      "required": true
+    },
+    "chantiers": {
+      "via": "etape",
+      "collection": "chantier"
+    }
+  }
+}
