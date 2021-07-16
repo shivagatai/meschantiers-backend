@@ -24,7 +24,7 @@ module.exports = {
         try {
           console.log(com);
           const comcom = await strapi.services.epci.findOne({
-            epci: com.EPCI,
+            epci: parseInt(com.EPCI),
           });
           if (!comcom) {
             ctx.throw(
@@ -34,7 +34,7 @@ module.exports = {
           }
 
           const dpt = await strapi.services.departement.findOne({
-            dpt: com.DPT,
+            dpt: parseInt(com.DPT),
           });
           if (!dpt) {
             ctx.throw(
