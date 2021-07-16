@@ -18,7 +18,9 @@
       "required": true
     },
     "dpt": {
-      "type": "integer"
+      "type": "integer",
+      "unique": true,
+      "required": true
     },
     "communes": {
       "via": "departement",

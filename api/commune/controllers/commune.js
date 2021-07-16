@@ -42,7 +42,7 @@ module.exports = {
               "Impossible de trouver le département associé : " + com.DPT
             );
           }
-          console.log("commune.create dpt : " + JSON.stringify(dpt));
+          /*          console.log("commune.create dpt : " + JSON.stringify(dpt));
           console.log("commune.create comcom : " + JSON.stringify(comcom));
 
           console.log(
@@ -58,7 +58,7 @@ module.exports = {
                 },
               })
           );
-
+*/
           await strapi.services.commune.create({
             insee_nv: parseInt(com.INSEE_NV),
             commune_nv: com.COMMUNE_NV,
