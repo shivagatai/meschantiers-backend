@@ -113,4 +113,8 @@ exports
 build
 .strapi-updater.json
 
+############################
+# Heroku - pour limiter les conflits
+############################
 package-lock.json
+yarn.lock
