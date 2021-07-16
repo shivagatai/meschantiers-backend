@@ -22,7 +22,7 @@ module.exports = {
       // finally loop through the json and fire the Strapi update queries
       await json.map(async (com) => {
         try {
-          console.log(com);
+          //         console.log(com);
           const comcom = await strapi.services.epci.findOne({
             epci: parseInt(com.EPCI),
           });
@@ -42,6 +42,20 @@ module.exports = {
               "Impossible de trouver le département associé : " + com.DPT
             );
           }
+
+          console.log(
+            "commune.create : " +
+              JSON.stringify({
+                insee_nv: parseInt(com.INSEE_NV),
+                commune_nv: com.COMMUNE_NV,
+                epci: {
+                  id: comcom.id,
+                },
+                departement: {
+                  id: dpt.id,
+                },
+              })
+          );
 
           await strapi.services.commune.create({
             insee_nv: parseInt(com.INSEE_NV),
