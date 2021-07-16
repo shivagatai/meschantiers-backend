@@ -13,10 +13,14 @@
   "pluginOptions": {},
   "attributes": {
     "etiq_epci": {
-      "type": "string"
+      "type": "string",
+      "unique": true,
+      "required": true
     },
     "epci": {
-      "type": "integer"
+      "type": "integer",
+      "unique": true,
+      "required": true
     },
     "communes": {
       "via": "epci",
