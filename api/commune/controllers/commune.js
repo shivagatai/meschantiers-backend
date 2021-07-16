@@ -42,6 +42,8 @@ module.exports = {
               "Impossible de trouver le département associé : " + com.DPT
             );
           }
+          console.log("commune.create dpt : " + JSON.stringify(dpt));
+          console.log("commune.create comcom : " + JSON.stringify(comcom));
 
           console.log(
             "commune.create : " +
