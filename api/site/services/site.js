@@ -19,7 +19,7 @@ module.exports = {
   findOne(params, populate) {
     return strapi
       .query("site")
-      .find(params, [
+      .findOne(params, [
         "commune",
         "commune.departement",
         "chantiers",

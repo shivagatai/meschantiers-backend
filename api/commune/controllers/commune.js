@@ -63,10 +63,10 @@ module.exports = {
             insee_nv: parseInt(com.INSEE_NV),
             commune_nv: com.COMMUNE_NV,
             epci: {
-              id: comcom[0].id,
+              id: comcom.id,
             },
             departement: {
-              id: dpt[0].id,
+              id: dpt.id,
             },
           });
         } catch (err) {
