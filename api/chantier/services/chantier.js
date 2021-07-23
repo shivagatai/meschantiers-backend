@@ -15,6 +15,7 @@ module.exports = {
         "site.commune",
         "site.commune.departement",
         "revues",
+        "budgets",
       ]);
   },
   findOne(params, populate) {
@@ -26,6 +27,7 @@ module.exports = {
         "site.commune",
         "site.commune.departement",
         "revues",
+        "budgets",
       ]);
   },
   /**
