@@ -50,6 +50,14 @@
     },
     {
       "method": "DELETE",
+      "path": "/chantiers/purgechantiers",
+      "handler": "chantier.purgechantiers",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
       "path": "/chantiers/:id",
       "handler": "chantier.delete",
       "config": {

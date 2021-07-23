@@ -1,0 +1,60 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/budgets",
+      "handler": "budget.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budgets/count",
+      "handler": "budget.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budgets/:id",
+      "handler": "budget.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budgets",
+      "handler": "budget.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budgets/loadbudgets/:annee/:mois/:jour",
+      "handler": "budget.loadbudgets",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/budgets/:id",
+      "handler": "budget.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/budgets/:id",
+      "handler": "budget.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

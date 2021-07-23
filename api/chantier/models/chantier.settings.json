@@ -69,8 +69,31 @@
       "type": "enumeration",
       "enum": [
         "SMOCT",
-        "Energie"
+        "Energie",
+        "Livres"
       ]
+    },
+    "remise_prog_date_reel": {
+      "type": "date"
+    },
+    "notif_moe_date_reel": {
+      "type": "date"
+    },
+    "notif_ent_date_reel": {
+      "type": "date"
+    },
+    "fin_tvx_date_reel": {
+      "type": "date"
+    },
+    "categorie_travaux": {
+      "type": "string"
+    },
+    "fonction_associee": {
+      "type": "string"
+    },
+    "budgets": {
+      "via": "chantier",
+      "collection": "budget"
     }
   }
 }

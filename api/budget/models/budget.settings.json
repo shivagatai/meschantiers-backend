@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "budgets",
+  "info": {
+    "name": "budget",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date_suivi_budget": {
+      "type": "date"
+    },
+    "cout_previsionnel_operation": {
+      "type": "decimal"
+    },
+    "engagement_total": {
+      "type": "decimal"
+    },
+    "reste_a_engager_sur_operation": {
+      "type": "decimal"
+    },
+    "mandatement_exercice_en_cours": {
+      "type": "decimal"
+    },
+    "mandatement_total": {
+      "type": "decimal"
+    },
+    "reste_a_mandater_sur_operation": {
+      "type": "decimal"
+    },
+    "reste_a_mandater_sur_engagement": {
+      "type": "decimal"
+    },
+    "chantier": {
+      "model": "chantier",
+      "via": "budgets"
+    }
+  }
+}
