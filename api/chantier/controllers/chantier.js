@@ -1,8 +1,13 @@
 "use strict";
 
+
 const { parseMultipartData, sanitizeEntity } = require("strapi-utils");
 const csv = require("csvtojson");
 const fs = require("fs");
+
+
+import { DateTime } from "luxon"
+
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -10,6 +15,8 @@ const fs = require("fs");
  */
 
 module.exports = {
+
+  
   /** Purge tous les chantiers et les revues associées */
   async purgechantiers(ctx) {
     console.log("#start chantier.controller.purgechantiers");
@@ -25,20 +32,27 @@ module.exports = {
   },
 
   async loadchantiers(ctx) {
-    const dateFormat = (datum) => {
+  
+// Prépare la comparaison de string case insensitive
+const checkIfOui = (val) => {
+  let collator = new Intl.Collator('fr', { sensitivity: 'base' });
+  return 0 == collator.compare(val, "oui");
+}
+
+const dateFormat = (datum) => {
       if (datum) {
         const parts = datum.split("/");
         if (parts[2] && parts[1] && parts[0]) {
-          return new Date(
-            2 === parts[2].length
+          return DateTime.fromObject({
+            year: 2 === parts[2].length
               ? 2000 + parseInt(parts[2])
               : parseInt(parts[2]),
-            parseInt(parts[1]) - 1,
-            parseInt(parts[0]),
-            0,
-            0,
-            0,
-            0
+            month : parseInt(parts[1]) - 1,
+            day : parseInt(parts[0]),
+          }
+            
+            
+            
           );
         } else {
           console.error("Impossible de formater la date " + datum);
@@ -97,6 +111,8 @@ module.exports = {
       const buffer = fs.readFileSync(files.files.path);
       // stream that file buffer into the conversion function to get usable json
       let json = await csv().fromString(buffer.toString());
+
+
       // finally loop through the json and fire the Strapi update queries
       await json.map(async (chantier) => {
         try {
@@ -113,11 +129,11 @@ module.exports = {
               notif_moe_date_reel: dateFormat(chantier.NOTIF_MOE_DATE_REEL),
               notif_ent_date_reel: dateFormat(chantier.NOTIF_ENT_DATE_REEL),
               fin_tvx_date_reel: dateFormat(chantier.FIN_TVX_DATE_REEL),
-              comite_proj: chantier.COMITE_PROJ !== "Non",
+              comite_proj: checkIfOui(chantier.COMITE_PROJ),
               etat: sansAccent(chantier.ETAT),
-              plan_relance: chantier.PLAN_RELANCE == "oui",
-              cpe: chantier.CPE == "oui",
-              dfap: chantier.DFAP == "oui",
+              plan_relance: checkIfOui(chantier.PLAN_RELANCE),
+              cpe: checkIfOui(chantier.CPE),
+              dfap: checkIfOui(chantier.DFAP),
               categorie_travaux: chantier.CAT_TVX,
               fonction_associee: chantier.FCT_ASSOC,
               date_delib: parseInt(chantier.DATE_DELIB),
@@ -179,34 +195,55 @@ module.exports = {
               }
             }
 
-            const entity = sanitizeEntity(op, {
-              model: strapi.models.chantier,
+            /** souvent le numero est l'identifiant unique sauf
+                 - s'il n'est pas précisé (cellule vide dans Excel)
+                 - s'il s'agit d'une opération transverse
+                findOne nous renverrait un élément unique sans qu'on sache s'il y a potentiellement d'autres éléments avec lesquels il pourrait être confondu
+                
+            */ 
+            const chantierFoundList = await strapi.services.chantier.find({
+              numero: chantier.numero,
             });
-            /*            const entity = {
-                            numero: 'L87T1D',
-                            operation: "Mise aux normes des stations d'épuration et des fosses à lisier.",
-                            ap_est: parseFloat('2 000 000 €'.replace(/\s/g, '')),
-                            date_deliberation: '2018',
-                            remise_prog_date_prev: '01/03/2018 à 00:00:00',
-                            notif_moe_date_prev: undefined,
-                            notif_ent_date_prev: undefined,
-                            fin_tvx_date_prev: '01/09/2021 à 00:00:00',
-                            comite_proj: false,
-                            etat: 'Energie',
-                            priorite: '1',
-                            plan_relance: false,
-                            cpe: false,
-                            dfap: false,
-                            site: { id: 721 },
-                            etape: { id: 8 }
-                          }
-             */
-            //      console.log(entity);
+            if(chantierFoundList && 1 == chantierFoundList.length) {
+              // on en a trouvé un et un seul
+              const chantierFound = chantierFoundList[0]
+              op = {
+                ...op,
+                id: chantierFound,
+              };
+            }
+            else {
+              // sinon on cherche par le libellé de l'opération
+              const chantierFoundList = await strapi.services.chantier.find({
+                operation: chantier.operation,
+              });
+              if(chantierFoundList && 1 == chantierFoundList.length) {
+                const chantierFound = chantierFoundList[0]
+                op = {
+                  ...op,
+                  id: chantierFound,
+                };
+              }
+              else {
+                // Ni le code, ni l'opération ne sont uniques, il s'agit très probablement d'un nouveau chantier
+                console.log("Nouveau chantier found : "+JSON.stringify(chantier))
+              }
+  
+            }
 
             try {
-              const chantier_cree = await strapi.services.chantier.create(
-                entity
-              );
+              const chantier_cree
+              if(op.id) {
+                // on a un identifiant strapi pour le chantier, on fait une mise à jour :
+                chantier_cree = await strapi.services.chantier.update(
+                  op
+                );  
+              }
+              else {
+                chantier_cree = await strapi.services.chantier.create(
+                  op
+                );  
+              }
 
               // si une revue de chantier a été ajoutée
               if (chantier.DATE_MAJ) {
@@ -219,13 +256,25 @@ module.exports = {
                   },
                 };
 
-                const revue_entity = sanitizeEntity(revue_actuelle, {
-                  model: strapi.models.revue,
-                });
-
-                const revue_strapi = await strapi.services.revue.create(
-                  revue_entity
-                );
+                if(op.id) {
+                  // en mode mise-à-jour, il faut vérifier s'il s'agit d'une nouvelle revue
+                  const revue_array = chantier_cree.revues.filter(item => item.date_maj.toMillis() == revue_actuelle.date_maj.toMillis())
+                  if(revue_array && 0 < revue_array.length) {
+                    // on a trouvé une revue à la même date donc on ne fait rien
+                  }
+                  else {
+                    // pas de revue à cette date, on l'ajoute
+                    const revue_strapi = await strapi.services.revue.create(
+                      revue_actuelle
+                    );  
+                    }
+                }
+                else {
+                  // en mode création, pas de doute il faut bien la créer
+                  const revue_strapi = await strapi.services.revue.create(
+                    revue_actuelle
+                  );  
+                }
               }
             } catch (err) {
               console.error(
@@ -244,3 +293,5 @@ module.exports = {
     }
   },
 };
+
+
