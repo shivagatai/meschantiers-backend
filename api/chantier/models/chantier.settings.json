@@ -26,19 +26,9 @@
       "type": "decimal"
     },
     "date_deliberation": {
-      "type": "integer"
-    },
-    "remise_prog_date_prev": {
-      "type": "date"
-    },
-    "notif_moe_date_prev": {
-      "type": "date"
-    },
-    "notif_ent_date_prev": {
-      "type": "date"
-    },
-    "fin_tvx_date_prev": {
-      "type": "date"
+      "type": "integer",
+      "max": 2099,
+      "min": 2000
     },
     "comite_proj": {
       "type": "boolean"
@@ -73,18 +63,6 @@
         "Livres"
       ]
     },
-    "remise_prog_date_reel": {
-      "type": "date"
-    },
-    "notif_moe_date_reel": {
-      "type": "date"
-    },
-    "notif_ent_date_reel": {
-      "type": "date"
-    },
-    "fin_tvx_date_reel": {
-      "type": "date"
-    },
     "categorie_travaux": {
       "type": "string"
     },
@@ -94,6 +72,16 @@
     "budgets": {
       "via": "chantier",
       "collection": "budget"
+    },
+    "prevu": {
+      "type": "component",
+      "repeatable": false,
+      "component": "projet.planning"
+    },
+    "reel": {
+      "type": "component",
+      "repeatable": false,
+      "component": "projet.planning"
     }
   }
 }

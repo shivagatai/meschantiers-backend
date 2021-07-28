@@ -37,8 +37,8 @@
       "type": "decimal"
     },
     "chantier": {
-      "model": "chantier",
-      "via": "budgets"
+      "via": "budgets",
+      "model": "chantier"
     }
   }
 }

@@ -26,6 +26,14 @@
     },
     {
       "method": "POST",
+      "path": "/departements/loaddepartements",
+      "handler": "departement.loaddepartements",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
       "path": "/departements",
       "handler": "departement.create",
       "config": {

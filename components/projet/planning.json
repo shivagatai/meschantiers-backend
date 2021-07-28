@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_projet_plannings",
+  "info": {
+    "name": "planning",
+    "icon": "calendar-alt"
+  },
+  "options": {},
+  "attributes": {
+    "notif_moe": {
+      "type": "date"
+    },
+    "remise_prog": {
+      "type": "date"
+    },
+    "notif_ent": {
+      "type": "date"
+    },
+    "fin_tvx": {
+      "type": "date"
+    }
+  }
+}
