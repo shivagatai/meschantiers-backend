@@ -231,6 +231,7 @@ const dateFormat = (datum) => {
   
             }
 
+            // Il faudrait faire ces deux créations en mode transaction
             try {
               const chantier_cree
               if(op.id) {
@@ -256,21 +257,12 @@ const dateFormat = (datum) => {
                   },
                 };
 
-                if(op.id) {
-                  // en mode mise-à-jour, il faut vérifier s'il s'agit d'une nouvelle revue
-                  const revue_array = chantier_cree.revues.filter(item => item.date_maj.toMillis() == revue_actuelle.date_maj.toMillis())
-                  if(revue_array && 0 < revue_array.length) {
-                    // on a trouvé une revue à la même date donc on ne fait rien
-                  }
-                  else {
-                    // pas de revue à cette date, on l'ajoute
-                    const revue_strapi = await strapi.services.revue.create(
-                      revue_actuelle
-                    );  
-                    }
+                if(op.id && chantier_cree.revues.some(item => item.date_maj.toMillis() === revue_actuelle.date_maj.toMillis())) {
+                  // On est en mode mise-à-jour et on a trouvé une revue à la même date donc on ne fait rien
                 }
                 else {
-                  // en mode création, pas de doute il faut bien la créer
+                  // soit on est en mode création d'un nouveau chantier, 
+                  // soit on met à jour le chantier mais il n'y a pas de revue attachée avec la même date
                   const revue_strapi = await strapi.services.revue.create(
                     revue_actuelle
                   );  
