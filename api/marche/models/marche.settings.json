@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "marches",
+  "info": {
+    "name": "marche"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "objet": {
+      "type": "string"
+    },
+    "service": {
+      "type": "string"
+    },
+    "site": {
+      "type": "string"
+    },
+    "recept_doss_date": {
+      "type": "date"
+    },
+    "recept_doss_obs": {
+      "type": "richtext"
+    },
+    "envoi_sdm_date": {
+      "type": "date"
+    },
+    "envoi_sdm_obs": {
+      "type": "richtext"
+    }
+  }
+}

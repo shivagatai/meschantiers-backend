@@ -314,4 +314,177 @@ module.exports = {
       return ctx.badRequest("request format incorrect");
     }
   },
+  async loadmarches(ctx) {
+    const dateFormat = (datum) => {
+      if (datum) {
+        const parts = datum.split("/");
+        if (parts[2] && parts[1] && parts[0]) {
+          return DateTime.fromObject({
+            year:
+              2 === parts[2].length
+                ? 2000 + parseInt(parts[2])
+                : parseInt(parts[2]),
+            month: parseInt(parts[1]),
+            day: parseInt(parts[0]),
+          });
+        } else {
+          console.error("Impossible de formater la date " + datum);
+          return;
+        }
+      }
+      return;
+    };
+
+    if (ctx.is("multipart")) {
+      // parse the multipart data, you will need to send file as files.files key
+      // and some random json object in the data key
+      const { files } = parseMultipartData(ctx);
+      // convert the local tmp file to a buffer
+      const buffer = fs.readFileSync(files.files.path);
+      // stream that file buffer into the conversion function to get usable json
+      let json = await csv({ delimiter: ";" }).fromString(buffer.toString());
+
+      // finally loop through the json and fire the Strapi update queries
+      await json.map(async (marche) => {
+        try {
+          if (marche.N_CHANTIER) {
+            const chantierList = await strapi.services.chantier.find({
+              numero: marche.N_CHANTIER,
+            });
+            if (chantierList && 1 === chantierList.length) {
+              const chantier = chantierList[0];
+
+              console.log("Found chantier" + JSON.stringify(chantier.id));
+
+              let evt_marches = [];
+              const recept_doss = dateFormat(marche.RECEPT_DOSS_DATE);
+              if (
+                recept_doss &&
+                DateTime.isDateTime(recept_doss) &&
+                recept_doss.isValid
+              ) {
+                evt_marches.push({
+                  jalon_date: recept_doss.toISODate(),
+                  observations: marche.RECEPT_DOSS_OBS,
+                  type: "receptdoss",
+                });
+              }
+
+              const envoi_sdm = dateFormat(marche.ENVOI_SDM_DATE);
+              if (
+                envoi_sdm &&
+                DateTime.isDateTime(envoi_sdm) &&
+                envoi_sdm.isValid
+              ) {
+                evt_marches.push({
+                  jalon_date: envoi_sdm.toISODate(),
+                  observations: marche.ENVOI_SDM_OBS,
+                  type: "envoisdm",
+                });
+              }
+
+              const publicite = dateFormat(marche.PUBLICITE_DATE);
+              if (
+                publicite &&
+                DateTime.isDateTime(publicite) &&
+                publicite.isValid
+              ) {
+                evt_marches.push({
+                  jalon_date: publicite.toISODate(),
+                  observations: marche.PUBLICITE_OBS,
+                  type: "publicite",
+                });
+              }
+
+              const remise_offre = dateFormat(marche.REMIS_OFFR_DATE);
+              if (
+                remise_offre &&
+                DateTime.isDateTime(remise_offre) &&
+                remise_offre.isValid
+              ) {
+                evt_marches.push({
+                  jalon_date: remise_offre.toISODate(),
+                  observations: marche.REMIS_OFFR_OBS,
+                  type: "remiseoffre",
+                });
+              }
+
+              const envoi_plis_moe = dateFormat(marche.ENVOI_PLIS_MOE_DATE);
+              if (
+                envoi_plis_moe &&
+                DateTime.isDateTime(envoi_plis_moe) &&
+                envoi_plis_moe.isValid
+              ) {
+                evt_marches.push({
+                  jalon_date: envoi_plis_moe.toISODate(),
+                  observations: marche.ENVOI_PLIS_MOE_OBS,
+                  type: "envoiplismoe",
+                });
+              }
+
+              const analyse = dateFormat(marche.ANALYSE_DATE);
+              if (analyse && DateTime.isDateTime(analyse) && analyse.isValid) {
+                evt_marches.push({
+                  jalon_date: analyse.toISODate(),
+                  observations: marche.ANALYSE_OBS,
+                  type: "analyse",
+                });
+              }
+
+              const envoi_analyse_sdm = dateFormat(
+                marche.ENVOI_ANALYSE_SDM_DATE
+              );
+              if (
+                envoi_analyse_sdm &&
+                DateTime.isDateTime(envoi_analyse_sdm) &&
+                envoi_analyse_sdm.isValid
+              ) {
+                evt_marches.push({
+                  jalon_date: envoi_analyse_sdm.toISODate(),
+                  observations: marche.ENVOI_ANALYSE_SDM_OBS,
+                  type: "envoianalysesdm",
+                });
+              }
+
+              const cao = dateFormat(marche.CAO_DATE);
+              if (cao && DateTime.isDateTime(cao) && cao.isValid) {
+                evt_marches.push({
+                  jalon_date: cao.toISODate(),
+                  observations: marche.CAO_OBS,
+                  type: "cao",
+                });
+              }
+
+              const notification = dateFormat(marche.NOTIFICATION_DATE);
+              if (
+                notification &&
+                DateTime.isDateTime(notification) &&
+                notification.isValid
+              ) {
+                evt_marches.push({
+                  jalon_date: notification.toISODate(),
+                  observations: marche.NOTIFICATION_OBS,
+                  type: "notification",
+                });
+              }
+
+              console.log({ evt_marches });
+              // on a un identifiant strapi pour le chantier, on fait une mise à jour :
+              const chantier_updated = await strapi.services.chantier.update(
+                { id: chantier.id },
+                {
+                  evt_marches,
+                }
+              );
+            }
+          }
+        } catch (err) {
+          console.log("Exception : ", err);
+        }
+      });
+      return { updated: true };
+    } else {
+      return ctx.badRequest("request format incorrect");
+    }
+  },
 };

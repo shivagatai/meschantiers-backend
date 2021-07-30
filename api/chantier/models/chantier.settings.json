@@ -82,6 +82,11 @@
       "type": "component",
       "repeatable": false,
       "component": "projet.planning"
+    },
+    "evt_marches": {
+      "type": "component",
+      "repeatable": true,
+      "component": "projet.jalon"
     }
   }
 }

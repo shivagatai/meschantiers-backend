@@ -42,6 +42,14 @@
     },
     {
       "method": "PUT",
+      "path": "/chantiers/loadmarches",
+      "handler": "chantier.loadmarches",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
       "path": "/chantiers/:id",
       "handler": "chantier.update",
       "config": {
