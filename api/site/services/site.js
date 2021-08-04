@@ -14,6 +14,7 @@ module.exports = {
         "commune.departement",
         "chantiers",
         "chantiers.etape",
+        "chantiers.revues",
       ]);
   },
   findOne(params, populate) {
@@ -24,6 +25,7 @@ module.exports = {
         "commune.departement",
         "chantiers",
         "chantiers.etape",
+        "chantiers.revues",
       ]);
   },
 };

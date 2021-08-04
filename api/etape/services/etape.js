@@ -9,11 +9,21 @@ module.exports = {
   find(params, populate) {
     return strapi
       .query("etape")
-      .find(params, ["chantiers", "chantiers.etape", "chantiers.site"]);
+      .find(params, [
+        "chantiers",
+        "chantiers.etape",
+        "chantiers.site",
+        "chantiers.revues",
+      ]);
   },
   findOne(params, populate) {
     return strapi
       .query("etape")
-      .findOne(params, ["chantiers", "chantiers.etape", "chantiers.site"]);
+      .findOne(params, [
+        "chantiers",
+        "chantiers.etape",
+        "chantiers.site",
+        "chantiers.revues",
+      ]);
   },
 };
