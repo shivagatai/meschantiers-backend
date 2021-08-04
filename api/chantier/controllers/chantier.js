@@ -267,8 +267,8 @@ module.exports = {
                 console.log(
                   "Nouveau chantier found : " + JSON.stringify(chantier)
                 );
-                //chantier_cree = await strapi.services.chantier.create(entity);
-                chantier_cree = false;
+                chantier_cree = await strapi.services.chantier.create(entity);
+                //chantier_cree = false;
               }
             } catch (err) {
               console.error(
