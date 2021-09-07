@@ -258,6 +258,7 @@ module.exports = {
             try {
               if (chantierFound) {
                 // on a un identifiant strapi pour le chantier, on fait une mise à jour :
+                //console.log("Chantier à mettre à jour");
                 chantier_cree = await strapi.services.chantier.update(
                   { id: chantierFound.id },
                   entity
@@ -268,7 +269,6 @@ module.exports = {
                   "Nouveau chantier found : " + JSON.stringify(chantier)
                 );
                 chantier_cree = await strapi.services.chantier.create(entity);
-                //chantier_cree = false;
               }
             } catch (err) {
               console.error(
@@ -300,6 +300,8 @@ module.exports = {
               } else {
                 // soit on est en mode création d’un nouveau chantier
                 // soit on met à jour le chantier mais il n’y a pas de revue attachée avec la même date
+                //                console.log("Nouvelle revue pour " + chantier.INFO_CLES);
+
                 const revue_strapi = await strapi.services.revue.create(
                   revue_actuelle
                 );
