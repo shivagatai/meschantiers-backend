@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_coordonnees_geolocs",
+  "info": {
+    "name": "geoloc",
+    "icon": "globe",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "latitude": {
+      "type": "float",
+      "min": 48,
+      "max": 51
+    },
+    "longitude": {
+      "type": "float",
+      "max": 3,
+      "min": -3
+    }
+  }
+}

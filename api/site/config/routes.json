@@ -42,6 +42,14 @@
     },
     {
       "method": "PUT",
+      "path": "/sites/loadcoordinates",
+      "handler": "site.loadcoordinates",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
       "path": "/sites/:id",
       "handler": "site.update",
       "config": {

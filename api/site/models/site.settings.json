@@ -46,6 +46,15 @@
         "EPLE",
         "HORS_EPLE"
       ]
+    },
+    "urbest_id": {
+      "type": "integer",
+      "min": 0
+    },
+    "coordinates": {
+      "type": "component",
+      "repeatable": false,
+      "component": "coordonnees.geoloc"
     }
   }
 }
